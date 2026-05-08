@@ -1,0 +1,538 @@
+/* WP Telegram Bridge Widget */
+/* Using rem for accessibility and responsiveness (base 16px) */
+
+.wtb-widget {
+    position: fixed;
+    bottom: 1.25rem; /* 20px */
+    width: 21.875rem; /* 350px */
+    max-width: calc(100vw - 2.5rem); /* 40px */
+    background: #fff;
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: 0 0.25rem 1.25rem rgba(0,0,0,0.15); /* 4px 20px */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    z-index: 9999;
+}
+
+.wtb-widget-right {
+    right: 1.25rem; /* 20px */
+}
+
+.wtb-widget-left {
+    left: 1.25rem; /* 20px */
+}
+
+.wtb-chat-header {
+    background: #0088cc;
+    color: #fff;
+    padding: 0.75rem 1rem; /* 12px 16px */
+    border-radius: 0.625rem 0.625rem 0 0; /* 10px */
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-weight: 600;
+}
+
+.wtb-chat-toggle {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: background 0.2s ease;
+}
+
+.wtb-chat-header:hover .wtb-chat-toggle {
+    background: rgba(255,255,255,0.2);
+}
+
+.wtb-chat-body {
+    height: 33rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tabs */
+.wtb-chat-tabs {
+    display: flex;
+    border-bottom: 0.0625rem solid #ddd;
+    background: #f8f9fa;
+}
+
+.wtb-tab-btn {
+    flex: 1;
+    padding: 0.75rem;
+    background: transparent;
+    border: none;
+    border-bottom: 0.125rem solid transparent;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.wtb-tab-btn:hover {
+    color: #0088cc;
+    background: #eef6fb;
+}
+
+.wtb-tab-btn.active {
+    color: #0088cc;
+    border-bottom-color: #0088cc;
+    background: #fff;
+}
+
+.wtb-tab-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.wtb-tab-panel {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.wtb-tab-panel.active {
+    display: flex;
+}
+
+.wtb-faq-content {
+    padding: 1.25rem;
+    color: #666;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.wtb-faq-form {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    overflow-y: auto;
+}
+
+.wtb-faq-intro {
+    margin: 0 0 0.625rem;
+    color: #333;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.wtb-faq-form textarea {
+    padding: 0.75rem;
+    border: 0.0625rem solid #ddd;
+    border-radius: 0.3125rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 5rem;
+}
+
+.wtb-faq-form textarea:focus {
+    outline: none;
+    border-color: #0088cc;
+}
+
+.wtb-faq-form input {
+    padding: 0.75rem;
+    border: 0.0625rem solid #ddd;
+    border-radius: 0.3125rem;
+    font-size: 0.875rem;
+}
+
+.wtb-faq-form input:focus {
+    outline: none;
+    border-color: #0088cc;
+}
+
+.wtb-faq-form button {
+    padding: 0.75rem 1.25rem;
+    background: #0088cc;
+    color: #fff;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 0.3125rem;
+}
+
+.wtb-faq-form button:hover {
+    background: #0077b3;
+}
+
+.wtb-step {
+    padding: 1.25rem; /* 20px */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+}
+
+.wtb-step p {
+    margin: 0 0 0.9375rem; /* 15px */
+    color: #666;
+    font-size: 0.875rem; /* 14px */
+}
+
+.wtb-step input {
+    padding: 0.75rem; /* 12px */
+    margin-bottom: 0.625rem; /* 10px */
+    border: 0.0625rem solid #ddd; /* 1px */
+    border-radius: 0.3125rem; /* 5px */
+    font-size: 0.875rem; /* 14px */
+}
+
+.wtb-step input:focus {
+    outline: none;
+    border-color: #0088cc;
+}
+
+.wtb-step button {
+    padding: 0.75rem 1.25rem; /* 12px 20px */
+    border: none;
+    border-radius: 0.3125rem; /* 5px */
+    cursor: pointer;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    color: #ffffff;
+    background: #0088cc;
+}
+
+/* Chat messages area */
+.wtb-messages {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 65%;
+    height: 65%;
+    padding: 0.9375rem; /* 15px */
+    background: #f5f5f5;
+    border-bottom: 0.0625rem solid #ddd; /* 1px */
+}
+
+.wtb-message {
+    max-width: 80%;
+    padding: 0.625rem 0.9375rem; /* 10px 15px */
+    margin-bottom: 0.625rem; /* 10px */
+    border-radius: 0.9375rem; /* 15px */
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.wtb-message-visitor {
+    background: #0088cc;
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 0.3125rem; /* 5px */
+}
+
+.wtb-message-operator {
+    background: #fff;
+    color: #333;
+    margin-right: auto;
+    border-bottom-left-radius: 0.3125rem; /* 5px */
+    box-shadow: 0 0.0625rem 0.125rem rgba(0,0,0,0.1); /* 1px 2px */
+}
+
+.wtb-message-time {
+    font-size: 0.6875rem; /* 11px */
+    margin-top: 0.25rem;
+    text-align: right;
+}
+
+.wtb-message-visitor .wtb-message-time {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.wtb-message-operator .wtb-message-time {
+    color: #888;
+}
+
+/* Input area */
+.wtb-input-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem; /* 8px */
+    padding-top: 0.625rem; /* 10px */
+	padding-bottom: 0.625rem; /* 10px */
+    background: #fff;
+    border-radius: 0 0 0.625rem 0.625rem; /* 10px */
+    position: relative;
+}
+
+.wtb-input-area textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.625rem; /* 10px */
+    border: 0.0625rem solid #ddd; /* 1px */
+    border-radius: 1.25rem; /* 20px */
+    resize: none;
+    font-size: 0.875rem; /* 14px */
+    font-family: inherit;
+    height: 2.5rem; /* 40px */
+    line-height: 1.25rem; /* 20px */
+    height: 5.5rem;
+}
+
+.wtb-input-area textarea:focus {
+    outline: none;
+    border-color: #0088cc;
+}
+
+.wtb-input-area button {
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem; /* 16px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+	top: 53%;
+	right: 3%;
+	background: transparent;
+}
+
+.wtb-input-area button img {
+	width: 100%;
+}
+
+.wtb-input-area button:hover {
+
+}
+
+/* Operator message row in step 1 */
+.wtb-operator-message-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.wtb-operator-form-bubble {
+    flex: 1;
+    background: #fff;
+    color: #333;
+    border-radius: 0.9375rem;
+    border-bottom-left-radius: 0.3125rem;
+    box-shadow: 0 0.0625rem 0.125rem rgba(0,0,0,0.1);
+    padding: 0.9375rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.wtb-operator-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+}
+
+.wtb-operator-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.wtb-operator-status {
+    position: absolute;
+    bottom: 0.125rem;
+    right: 0.125rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #22c55e;
+    border: 0.125rem solid #fff;
+    border-radius: 50%;
+}
+
+.wtb-greeting {
+    margin: 0 0 0.75rem;
+    color: #333;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.wtb-consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.625rem;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+.wtb-consent-label input[type="checkbox"] {
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.wtb-consent-label a {
+    color: #0088cc;
+    text-decoration: underline;
+}
+
+.wtb-chat-launcher {
+    position: fixed;
+    bottom: 1.25rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0088cc;
+    z-index: 10000;
+    transition: transform 0.2s ease;
+    overflow: visible;
+}
+
+.wtb-chat-launcher:hover {
+    transform: scale(1.05);
+}
+
+.wtb-launcher-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.wtb-launcher-status {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #22c55e;
+    border: 0.125rem solid #fff;
+    border-radius: 50%;
+}
+
+.wtb-launcher-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.wtb-launcher-right {
+    right: 1.25rem;
+}
+
+.wtb-launcher-left {
+    left: 1.25rem;
+}
+
+/* Required fields hint */
+.wtb-required-hint,
+.wtb-step .wtb-required-hint {
+    margin: 0 0 0.625rem;
+    color: #888;
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+/* FAQ form consent */
+.wtb-faq-form .wtb-consent-label {
+    margin-top: 0.3125rem;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Delay / rate-limit warning */
+.wtb-delay-warning {
+    color: #e74c3c;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    text-align: center;
+    background: #fdecea;
+    border-radius: 0 0 0.625rem 0.625rem;
+    margin-top: -0.3125rem;
+}
+
+/* Operator message row with avatar */
+.wtb-message-row-operator {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.625rem;
+}
+
+.wtb-message-operator-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.wtb-message-operator-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.wtb-message-operator-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.wtb-message-operator-name {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 0.125rem;
+    margin-left: 0.25rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 30rem) { /* 480px */
+    .wtb-widget {
+        width: calc(100vw - 1.25rem); /* 20px */
+        bottom: 0.625rem; /* 10px */
+    }
+    
+    .wtb-widget-right {
+        right: 0.625rem; /* 10px */
+    }
+    
+    .wtb-widget-left {
+        left: 0.625rem; /* 10px */
+    }
+    
+    .wtb-chat-body {
+        height: 60vh;
+    }
+    
+    .wtb-chat-launcher {
+        width: 3rem;
+        height: 3rem;
+        bottom: 0.625rem;
+    }
+    
+    .wtb-launcher-right {
+        right: 0.625rem;
+    }
+    
+    .wtb-launcher-left {
+        left: 0.625rem;
+    }
+}

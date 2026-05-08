@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "WP Telegram Bridge",
+    "description": "Тестирование AJAX endpoint'ов",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Создать сессию",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "action",
+              "value": "wtb_start_session"
+            },
+            {
+              "key": "name",
+              "value": "Тест Пользователь"
+            },
+            {
+              "key": "email",
+              "value": "test@example.com"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonce}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/wp-admin/admin-ajax.php",
+          "host": ["{{base_url}}"],
+          "path": ["wp-admin", "admin-ajax.php"]
+        }
+      }
+    },
+    {
+      "name": "2. Отправить сообщение",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "action",
+              "value": "wtb_send_message"
+            },
+            {
+              "key": "session_key",
+              "value": "{{session_key}}"
+            },
+            {
+              "key": "content",
+              "value": "Привет из Postman!"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonce}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/wp-admin/admin-ajax.php",
+          "host": ["{{base_url}}"],
+          "path": ["wp-admin", "admin-ajax.php"]
+        }
+      }
+    },
+    {
+      "name": "3. Получить сообщения",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "action",
+              "value": "wtb_get_messages"
+            },
+            {
+              "key": "session_key",
+              "value": "{{session_key}}"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonce}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/wp-admin/admin-ajax.php",
+          "host": ["{{base_url}}"],
+          "path": ["wp-admin", "admin-ajax.php"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://your-site.com"
+    },
+    {
+      "key": "nonce",
+      "value": "ЗАМЕНИТЬ_НА_РЕАЛЬНЫЙ_NONCE"
+    },
+    {
+      "key": "session_key",
+      "value": "ЗАМЕНИТЬ_ПОСЛЕ_СОЗДАНИЯ_СЕССИИ"
+    }
+  ]
+}
